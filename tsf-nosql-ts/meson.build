@@ -101,6 +101,10 @@ package_dir = join_paths(mydir, 'faults')
 package_tests_c = []
 subdir('faults')
 
+package_dir = join_paths(mydir, 'cluster')
+package_tests_c = []
+subdir('cluster')
+
 package_dir = join_paths(mydir, 'security')
 package_tests_c = []
 subdir('security')

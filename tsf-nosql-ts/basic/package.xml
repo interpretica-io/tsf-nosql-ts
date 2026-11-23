@@ -29,6 +29,10 @@
             <arg name="backend"><value>redis</value><value>mongodb</value><value>cassandra</value><value>elasticsearch</value><value>neo4j</value><value>memcached</value><value>etcd</value></arg>
         </run>
         <run>
+            <script name="limits"><objective>The engines' and the module's own limits are reported as limits, not as other failures.</objective></script>
+            <arg name="case"><value>module_doc</value><value>module_conns</value><value>es_fields</value><value>mongo_depth</value><value>etcd_request</value><value>redis_maxmemory</value><value>memcached_item</value></arg>
+        </run>
+        <run>
             <script name="assert_violation"><objective>Each assertion of tapi_nosql_assert, provoked, reports its stable verdict.</objective></script>
             <arg name="backend"><value>mongodb</value></arg>
             <arg name="check"><value>doc</value><value>absent</value><value>count</value><value>keys</value><value>counter</value><value>eventually</value></arg>

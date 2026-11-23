@@ -18,5 +18,18 @@
             <script name="handles"><objective>Handles die with the RPC server that held them.</objective></script>
             <arg name="backend"><value>redis</value><value>mongodb</value><value>cassandra</value><value>elasticsearch</value><value>neo4j</value><value>memcached</value><value>etcd</value></arg>
         </run>
+        <run>
+            <script name="latency"><objective>Added network delay shows in every round trip; a deadline below it times out; removing it recovers.</objective></script>
+            <arg name="backend"><value>redis</value><value>mongodb</value><value>cassandra</value><value>elasticsearch</value><value>neo4j</value><value>memcached</value><value>etcd</value></arg>
+            <arg name="delay_ms"><value>50</value><value>200</value></arg>
+        </run>
+        <run>
+            <script name="loss"><objective>Lossy network (30 % of packets): every operation still succeeds, the tail latency grows.</objective></script>
+            <arg name="backend"><value>redis</value><value>mongodb</value><value>cassandra</value><value>elasticsearch</value><value>neo4j</value><value>memcached</value><value>etcd</value></arg>
+        </run>
+        <run>
+            <script name="partition"><objective>A network partition (all packets lost) gives a timeout at the deadline; the handle recovers after it heals.</objective></script>
+            <arg name="backend"><value>redis</value><value>mongodb</value><value>cassandra</value><value>elasticsearch</value><value>neo4j</value><value>memcached</value><value>etcd</value></arg>
+        </run>
     </session>
 </package>

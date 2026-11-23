@@ -68,7 +68,8 @@ if [ "$is_docker" == "1" ] ; then
     # own (TSF_NOSQL_SERVERS=external), and which images to start
     # otherwise. Names only: the values go from this environment into
     # the container's and appear on no command line.
-    for ts_var in TSF_NOSQL_SERVERS TSF_NOSQL_KEEP TSF_NOSQL_REDIS_IMAGE \
+    for ts_var in TSF_NOSQL_SERVERS TSF_NOSQL_KEEP TSF_NOSQL_PROFILE \
+                  TSF_NOSQL_REDIS_IMAGE \
                   TSF_NOSQL_MONGO_IMAGE TSF_NOSQL_CASSANDRA_IMAGE \
                   TSF_NOSQL_ES_IMAGE TSF_NOSQL_NEO4J_IMAGE \
                   TSF_NOSQL_MEMCACHED_IMAGE TSF_NOSQL_ETCD_IMAGE ; do
@@ -176,6 +177,11 @@ TS_DEFAULT_OPTS+="--external=external.yml "
 TS_DEFAULT_OPTS+="--build-parallel "
 TS_DEFAULT_OPTS+="--trc-db=\"${TS_TOPDIR}\"/conf/trc.xml "
 TS_DEFAULT_OPTS+="--trc-tag=trc_test1 --trc-tag=trc_test2 "
+# The other implementations and versions (scripts/nosql-servers.sh) have
+# expected results of their own in conf/trc.xml.
+if [ "${TSF_NOSQL_PROFILE:-}" = "alt" ] ; then
+    TS_DEFAULT_OPTS+="--trc-tag=profile_alt "
+fi
 
 export TE_TMP="${TS_TOPDIR}/tmp"
 mkdir -p "${TE_TMP}"

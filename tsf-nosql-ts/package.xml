@@ -15,8 +15,9 @@
           - query - Listing, paging, querying and counting
           - atomic - Conditional writes, counters, lost updates, multi-key writes
           - expiry - Entries that expire
-          - durability - Data across a server restart
+          - durability - Data across a server restart and a crash
           - faults - Deadlines, dead servers, stale handles
+          - cluster - Replica sets, rings and leaders
           - security - Audit with known-bad controls, TLS, authentication, secrets, injection, privileges
           - perf - Latency and throughput
           - native - Each engine's own command language
@@ -37,6 +38,7 @@
         <run><package name="expiry" /></run>
         <run><package name="durability" /></run>
         <run><package name="faults" /></run>
+        <run><package name="cluster" /></run>
         <run><package name="security" /></run>
         <run><package name="perf" /></run>
         <run><package name="native" /></run>

@@ -23,5 +23,9 @@
             <script name="count"><objective>The count follows inserts and deletes.</objective></script>
             <arg name="backend"><value>redis</value><value>mongodb</value><value>cassandra</value><value>elasticsearch</value><value>neo4j</value><value>memcached</value><value>etcd</value></arg>
         </run>
+        <run>
+            <script name="scan_churn"><objective>Keys present throughout a scan are seen by every pass, while other clients write and delete around them.</objective></script>
+            <arg name="backend"><value>redis</value><value>mongodb</value><value>cassandra</value><value>elasticsearch</value><value>neo4j</value><value>memcached</value><value>etcd</value></arg>
+        </run>
     </session>
 </package>

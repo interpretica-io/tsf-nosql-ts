@@ -614,6 +614,45 @@
               <results><result value="PASSED" /></results>
             </iter>
           </test>
+          <test name="limits" type="script">
+            <objective>The engines' and the module's own limits are reported as limits, not as other failures.</objective>
+            <notes />
+            <iter result="PASSED">
+              <arg name="case">module_doc</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="case">module_conns</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="case">es_fields</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="case">mongo_depth</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="case">etcd_request</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="case">redis_maxmemory</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="case">memcached_item</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+          </test>
           <test name="assert_violation" type="script">
             <objective>Each assertion of tapi_nosql_assert, provoked, reports its stable verdict.</objective>
             <notes />
@@ -966,6 +1005,45 @@
               <results><result value="PASSED" /></results>
             </iter>
           </test>
+          <test name="scan_churn" type="script">
+            <objective>Keys present throughout a scan are seen by every pass, while other clients write and delete around them.</objective>
+            <notes />
+            <iter result="PASSED">
+              <arg name="backend">redis</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">mongodb</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">cassandra</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">elasticsearch</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">neo4j</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="SKIPPED">
+              <arg name="backend">memcached</arg>
+              <notes />
+              <results><result value="SKIPPED"><verdict>memcached does not scan</verdict></result></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">etcd</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+          </test>
           <test name="epilogue" type="script">
             <objective>Group epilogue</objective>
             <notes />
@@ -1275,6 +1353,123 @@
               <results><result value="PASSED" /></results>
             </iter>
           </test>
+          <test name="absent_race" type="script">
+            <objective>Sixteen clients write one key if absent at once: exactly one write applies.</objective>
+            <notes />
+            <iter result="PASSED">
+              <arg name="backend">redis</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">mongodb</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">cassandra</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">elasticsearch</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">neo4j</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">memcached</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">etcd</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+          </test>
+          <test name="cas_race" type="script">
+            <objective>Eight clients compare-and-set one document at once: the final value is the number of writes that applied.</objective>
+            <notes />
+            <iter result="PASSED">
+              <arg name="backend">redis</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">mongodb</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">cassandra</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">elasticsearch</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">neo4j</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">memcached</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">etcd</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+          </test>
+          <test name="torn" type="script">
+            <objective>Readers never see a multi-write half applied, on an engine that promises isolation.</objective>
+            <notes />
+            <iter result="PASSED">
+              <arg name="backend">redis</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">mongodb</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">cassandra</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="SKIPPED">
+              <arg name="backend">elasticsearch</arg>
+              <notes />
+              <results><result value="SKIPPED"><verdict>elasticsearch does not multi</verdict></result></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">neo4j</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="SKIPPED">
+              <arg name="backend">memcached</arg>
+              <notes />
+              <results><result value="SKIPPED"><verdict>memcached does not multi</verdict></result></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">etcd</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+          </test>
           <test name="epilogue" type="script">
             <objective>Group epilogue</objective>
             <notes />
@@ -1436,7 +1631,7 @@
         </iter>
       </test>
       <test name="durability" type="package">
-        <objective>Data across a server restart</objective>
+        <objective>Data across a server restart and a crash</objective>
         <notes />
         <iter result="PASSED">
           <notes />
@@ -1483,6 +1678,59 @@
             </iter>
             <iter result="PASSED">
               <arg name="backend">etcd</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+          </test>
+          <test name="crash" type="script">
+            <objective>Acknowledged writes survive SIGKILL of a durable server; Redis with no append-only file and Memcached lose them.</objective>
+            <notes />
+            <iter result="PASSED">
+              <arg name="target">redis</arg>
+              <arg name="expect">kept</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="target">redis-weak</arg>
+              <arg name="expect">lost</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="target">mongodb</arg>
+              <arg name="expect">kept</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="target">cassandra</arg>
+              <arg name="expect">kept</arg>
+              <notes />
+              <results tags="profile_alt"><result value="FAILED"><verdict>A durable server lost acknowledged writes in a crash</verdict></result><result value="PASSED"></result></results>
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="target">elasticsearch</arg>
+              <arg name="expect">kept</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="target">neo4j</arg>
+              <arg name="expect">kept</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="target">memcached</arg>
+              <arg name="expect">lost</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="target">etcd</arg>
+              <arg name="expect">kept</arg>
               <notes />
               <results><result value="PASSED" /></results>
             </iter>
@@ -1623,6 +1871,235 @@
             </iter>
             <iter result="PASSED">
               <arg name="backend">etcd</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+          </test>
+          <test name="latency" type="script">
+            <objective>Added network delay shows in every round trip; a deadline below it times out; removing it recovers.</objective>
+            <notes />
+            <iter result="PASSED">
+              <arg name="backend">redis</arg>
+              <arg name="delay_ms">50</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">redis</arg>
+              <arg name="delay_ms">200</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">mongodb</arg>
+              <arg name="delay_ms">50</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">mongodb</arg>
+              <arg name="delay_ms">200</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">cassandra</arg>
+              <arg name="delay_ms">50</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">cassandra</arg>
+              <arg name="delay_ms">200</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">elasticsearch</arg>
+              <arg name="delay_ms">50</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">elasticsearch</arg>
+              <arg name="delay_ms">200</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">neo4j</arg>
+              <arg name="delay_ms">50</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">neo4j</arg>
+              <arg name="delay_ms">200</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">memcached</arg>
+              <arg name="delay_ms">50</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">memcached</arg>
+              <arg name="delay_ms">200</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">etcd</arg>
+              <arg name="delay_ms">50</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">etcd</arg>
+              <arg name="delay_ms">200</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+          </test>
+          <test name="loss" type="script">
+            <objective>Lossy network (30 % of packets): every operation still succeeds, the tail latency grows.</objective>
+            <notes />
+            <iter result="PASSED">
+              <arg name="backend">redis</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">mongodb</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">cassandra</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">elasticsearch</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">neo4j</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">memcached</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">etcd</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+          </test>
+          <test name="partition" type="script">
+            <objective>A network partition (all packets lost) gives a timeout at the deadline; the handle recovers after it heals.</objective>
+            <notes />
+            <iter result="PASSED">
+              <arg name="backend">redis</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">mongodb</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">cassandra</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">elasticsearch</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">neo4j</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">memcached</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+            <iter result="PASSED">
+              <arg name="backend">etcd</arg>
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+          </test>
+          <test name="epilogue" type="script">
+            <objective>Group epilogue</objective>
+            <notes />
+            <iter result="PASSED">
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+          </test>
+        </iter>
+      </test>
+      <test name="cluster" type="package">
+        <objective>Replica sets, rings and leaders</objective>
+        <notes />
+        <iter result="PASSED">
+          <notes />
+          <test name="prologue" type="script">
+            <objective>Group prologue</objective>
+            <notes />
+            <iter result="PASSED">
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+          </test>
+          <test name="mongo_failover" type="script">
+            <objective>Kill the primary of a three-member replica set: a new one is elected and no majority-acknowledged write is lost.</objective>
+            <notes />
+            <iter result="PASSED">
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+          </test>
+          <test name="mongo_secondary" type="script">
+            <objective>A read from a secondary sees a majority write within a bounded lag.</objective>
+            <notes />
+            <iter result="PASSED">
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+          </test>
+          <test name="etcd_leader" type="script">
+            <objective>Kill the leader of a three-member etcd cluster: the client moves to the others and no write is lost.</objective>
+            <notes />
+            <iter result="PASSED">
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+          </test>
+          <test name="cassandra_consistency" type="script">
+            <objective>Replication factor 3: with one node down ALL fails and QUORUM works; with two, QUORUM fails and ONE works.</objective>
+            <notes />
+            <iter result="PASSED">
+              <notes />
+              <results><result value="PASSED" /></results>
+            </iter>
+          </test>
+          <test name="redis_replica" type="script">
+            <objective>A replica follows its primary, refuses writes, and WAIT confirms replication.</objective>
+            <notes />
+            <iter result="PASSED">
               <notes />
               <results><result value="PASSED" /></results>
             </iter>

@@ -27,5 +27,17 @@
             <script name="multi"><objective>Several writes are all applied or none; a failed condition applies nothing.</objective></script>
             <arg name="backend"><value>redis</value><value>mongodb</value><value>cassandra</value><value>elasticsearch</value><value>neo4j</value><value>memcached</value><value>etcd</value></arg>
         </run>
+        <run>
+            <script name="absent_race"><objective>Sixteen clients write one key if absent at once: exactly one write applies.</objective></script>
+            <arg name="backend"><value>redis</value><value>mongodb</value><value>cassandra</value><value>elasticsearch</value><value>neo4j</value><value>memcached</value><value>etcd</value></arg>
+        </run>
+        <run>
+            <script name="cas_race"><objective>Eight clients compare-and-set one document at once: the final value is the number of writes that applied.</objective></script>
+            <arg name="backend"><value>redis</value><value>mongodb</value><value>cassandra</value><value>elasticsearch</value><value>neo4j</value><value>memcached</value><value>etcd</value></arg>
+        </run>
+        <run>
+            <script name="torn"><objective>Readers never see a multi-write half applied, on an engine that promises isolation.</objective></script>
+            <arg name="backend"><value>redis</value><value>mongodb</value><value>cassandra</value><value>elasticsearch</value><value>neo4j</value><value>memcached</value><value>etcd</value></arg>
+        </run>
     </session>
 </package>

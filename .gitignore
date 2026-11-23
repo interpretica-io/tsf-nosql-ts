@@ -9,3 +9,6 @@
 /meta_data.json
 /html/
 /run.out
+/run-*.out
+/run-sub.out
+/log-*.txt

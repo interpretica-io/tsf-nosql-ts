@@ -12,7 +12,9 @@
  * redis, redis-tls, redis-weak, mongodb, mongodb-tls, cassandra,
  * elasticsearch, neo4j, memcached, etcd, etcd-auth. A "backend" is an
  * engine name; its target is the server with the same name, the one
- * the functional tests run on.
+ * the functional tests run on. The cluster targets - mongodb-rs3,
+ * cassandra-ring, etcd-cluster, redis-primary, redis-replica - exist
+ * while the cluster group runs (nosql-servers.sh cluster-up).
  */
 
 #ifndef __TSAPI_NOSQL_H__
@@ -102,7 +104,9 @@ extern void tsapi_nosql_sess_fini(tsapi_nosql_sess *sess);
 
 /**
  * Run scripts/nosql-servers.sh on the agent: "up", "down",
- * "restart <target>", "pause <target>", "unpause <target>".
+ * "restart", "kill", "pause", "unpause", "unnetem" <target>,
+ * "cluster-up", "cluster-down", "node-stop", "node-start", "node-kill"
+ * <member>. For "netem", @p target is "<target> <netem arguments>".
  *
  * @return 0, TE_EOPNOTSUPP when the agent has no docker, or TE_EFAIL.
  */

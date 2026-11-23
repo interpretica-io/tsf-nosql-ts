@@ -52,6 +52,22 @@ static const struct {
     { "etcd", "etcd", 52379, false, NULL, NULL, NULL, NULL },
     { "etcd-auth", "etcd", 52380, false, "tsf", "root", TSAPI_NOSQL_APP_PW,
       NULL },
+    /* The clusters (scripts/nosql-servers.sh cluster-up), reached at
+     * their members' addresses on the clusters' Docker network. */
+    { "mongodb-rs3", "mongodb", 27017, false, NULL, NULL, NULL,
+      "{\"seeds\":\"172.31.77.11:27017,172.31.77.12:27017,"
+      "172.31.77.13:27017\",\"replica_set\":\"rs3\","
+      "\"write_concern\":\"majority\"}" },
+    { "cassandra-ring", "cassandra", 9042, false, NULL, NULL, NULL,
+      "{\"host\":\"172.31.77.21,172.31.77.22,172.31.77.23\","
+      "\"database\":\"tsf3\",\"replication_factor\":3}" },
+    { "etcd-cluster", "etcd", 2379, false, NULL, NULL, NULL,
+      "{\"endpoints\":[\"172.31.77.31:2379\",\"172.31.77.32:2379\","
+      "\"172.31.77.33:2379\"]}" },
+    { "redis-primary", "redis", 6379, false, NULL, NULL, NULL,
+      "{\"host\":\"172.31.77.41\"}" },
+    { "redis-replica", "redis", 6379, false, NULL, NULL, NULL,
+      "{\"host\":\"172.31.77.42\"}" },
 };
 
 /* Run a shell command on the agent; its exit status, or -1. */
@@ -151,9 +167,19 @@ tsapi_nosql_sess_init(tsapi_nosql_sess *sess, const char *name)
     snprintf(sess->coll, sizeof(sess->coll), "c%ld", (long)getpid());
     rc = rcf_rpc_server_create(sess->ta, name, &sess->pco);
     if (rc != 0)
+    {
         ERROR("Cannot create the RPC server '%s' on %s: %r", name, sess->ta,
               rc);
-    return rc;
+        return rc;
+    }
+    /*
+     * An operation is bounded by its own deadline (30 s here), retries
+     * and failovers included; the RPC must not give up before it does
+     * (TE's default is 10 s: a read under packet loss, or a write
+     * waiting out a dead cluster member, can take longer).
+     */
+    sess->pco->def_timeout = 120000;
+    return 0;
 }
 
 /* See description in tsapi_nosql.h */
