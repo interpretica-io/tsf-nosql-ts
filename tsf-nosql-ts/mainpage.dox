@@ -1,0 +1,9 @@
+/** @mainpage tsf-nosql-ts
+
+Test suite of tsf-nosql, the NoSQL database module of the Test
+Environment: Redis, MongoDB, Cassandra, Elasticsearch, Neo4j, Memcached
+and etcd reached from a Test Agent over their own client libraries,
+driven from the tests over RPC.
+
+See @ref nosql-ts for the groups.
+*/
